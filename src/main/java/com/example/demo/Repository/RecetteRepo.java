@@ -8,20 +8,19 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 
 @Repository
 public interface RecetteRepo extends JpaRepository<Recette,Integer> {
 
-    public Recette findByTitre(String titre);
+    Recette findByTitre(String titre);
 
     @Query("""
         SELECT DISTINCT r FROM Recette r
-        LEFT JOIN r.Ingredients i
+        JOIN Ingredient i on r.id=i.recette.id
         WHERE LOWER(r.titre) = LOWER(:mot)
         OR LOWER(r.description) LIKE LOWER(CONCAT('%', :mot, '%'))
         OR LOWER(i.nom) = LOWER(:mot)
-""")
+ """)
     Page<Recette> search(@Param("mot") String mot, Pageable pageable);
 }
