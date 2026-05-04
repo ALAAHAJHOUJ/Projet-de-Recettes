@@ -192,9 +192,9 @@ public class RecetteService {
 
 
 
-    public Page<FormatRecette> chercher1(String nom){
+    public Page<FormatRecette> chercher1(String nom,int page,int size){
 
-        Pageable p = PageRequest.of(0, 2);
+        Pageable p = PageRequest.of(page, size);
         Page<FormatRecette> RecettePagine=recetteRepo.search(nom,p).map((recette)->{
             FormatRecette r1=new FormatRecette();
             BeanUtils.copyProperties(recette,r1);

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,9 +81,12 @@ public class ControllerRecette {
 
 
 
-    @GetMapping("/pagination/")
-    public ResponseEntity<PagedResponse<FormatRecette>> tester(){
-        Page<FormatRecette> Recettes1=recetteService.RecettePagine1(0,2);
+
+    @GetMapping("/api/recettes")
+    public ResponseEntity<PagedResponse<FormatRecette>> tester(@RequestParam(defaultValue = "0")int page,
+                                                               @RequestParam(defaultValue = "2") int size){
+
+        Page<FormatRecette> Recettes1=recetteService.RecettePagine1(page,size);
         List<FormatRecette> RecettesRespone=new LinkedList<>();
 
         Recettes1.forEach((recette)->{
@@ -103,9 +107,32 @@ public class ControllerRecette {
 
 
 
-    @GetMapping("/pagination2/")
-    public Page<FormatRecette> tester111(){
-         return recetteService.chercher1("tajin");
+
+
+    @GetMapping("/api/recettes/search")
+    public ResponseEntity<PagedResponse<FormatRecette>> tester111(@RequestParam(defaultValue = "") String nom,
+                                                           @RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "2") int size){
+
+        Page<FormatRecette> Recettes1=recetteService.chercher1(nom,page,size);
+        List<FormatRecette> RecettesRespone=new LinkedList<>();
+
+        Recettes1.forEach((recette)->{
+            FormatRecette recette2=new FormatRecette();
+            BeanUtils.copyProperties(recette,recette2);
+            RecettesRespone.add(recette2);
+        });
+
+        PagedResponse<FormatRecette> PagedResponse=new PagedResponse<>(Recettes1.getTotalPages()
+                ,Recettes1.getSize()
+                ,Recettes1.getTotalElements()
+                ,Recettes1.getNumber()+1
+                ,RecettesRespone
+
+        );
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(PagedResponse);
     }
 
 
