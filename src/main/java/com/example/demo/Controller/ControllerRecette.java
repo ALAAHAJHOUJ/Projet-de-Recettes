@@ -83,7 +83,7 @@ public class ControllerRecette {
 
 
     @GetMapping("/api/recettes")
-    public ResponseEntity<PagedResponse<FormatRecette>> tester(@RequestParam(defaultValue = "0")int page,
+    public ResponseEntity<PagedResponse<FormatRecette>> pagination1(@RequestParam(defaultValue = "0")int page,
                                                                @RequestParam(defaultValue = "2") int size){
 
         Page<FormatRecette> Recettes1=recetteService.RecettePagine1(page,size);
@@ -110,7 +110,7 @@ public class ControllerRecette {
 
 
     @GetMapping("/api/recettes/search")
-    public ResponseEntity<PagedResponse<FormatRecette>> tester111(@RequestParam(defaultValue = "") String nom,
+    public ResponseEntity<PagedResponse<FormatRecette>> pagination2(@RequestParam(defaultValue = "") String nom,
                                                            @RequestParam(defaultValue = "0") int page,
                                                            @RequestParam(defaultValue = "2") int size){
 
