@@ -47,7 +47,7 @@ public class ControllerRecette {
             recetteService.modifierRecette(id,recette);
             return ResponseEntity.noContent().build();
         }else {
-           return ResponseEntity.notFound().build();
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("recette introuvable");
         }
 
     }
@@ -56,12 +56,12 @@ public class ControllerRecette {
 
 
     @DeleteMapping("/api/recettes/{id}")
-    public ResponseEntity<Void> SupprimerRecette(@PathVariable int id){
+    public ResponseEntity<?> SupprimerRecette(@PathVariable int id){
          if(recetteService.existe(id)){
              recetteService.SupprimerRecette(id);
              return ResponseEntity.noContent().build();
          }else {
-             return ResponseEntity.notFound().build();
+             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("recette introuvable");
          }
     }
 
@@ -72,7 +72,7 @@ public class ControllerRecette {
     public ResponseEntity<?> Consulter(@PathVariable int id){
         boolean exister=recetteService.existe(id);
         if (!exister) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("recette introuvable");
         }
 
         FormatRecette r1=recetteService.chercher(id);

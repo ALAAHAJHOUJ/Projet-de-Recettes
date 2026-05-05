@@ -150,22 +150,14 @@ public class RecetteService {
 
 
     public boolean existe(int id){
-        if(recetteRepo.findById(id)!=null){
-            return true;
-        }else {
-            return false;
-        }
+        return recetteRepo.existsById(id);
     }
 
 
 
 
     public boolean existeparTitre(String nom){
-        if(recetteRepo.findByTitre(nom)!=null){
-            return true;
-        }else {
-            return false;
-        }
+        return recetteRepo.existsByTitre(nom);
     }
 
 

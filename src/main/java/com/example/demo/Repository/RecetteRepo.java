@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface RecetteRepo extends JpaRepository<Recette,Integer> {
 
     Recette findByTitre(String titre);
+    boolean existsByTitre(String titre);
 
     @Query("""
         SELECT DISTINCT r FROM Recette r
