@@ -3,6 +3,7 @@ package com.example.demo.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -18,6 +19,15 @@ public class ExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body("Endpoint non trouvé");
     }
+
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleNotReadable(HttpMessageNotReadableException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body("veuillez saisir tous les champs avec les bons types");
+    }
+
 
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
