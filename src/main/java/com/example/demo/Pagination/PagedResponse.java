@@ -1,6 +1,5 @@
 package com.example.demo.Pagination;
 
-import com.example.demo.FormatRecette.FormatRecette;
 
 import java.util.List;
 

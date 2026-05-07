@@ -41,6 +41,9 @@ public class Recette {
     private List<Ingredient> Ingredients;
 
 
+    @ManyToOne
+    @JoinColumn(name="user-Id")
+    private User user;
 
     public int getId() {
         return id;

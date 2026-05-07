@@ -44,7 +44,9 @@ public class jwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("=== JWT FILTER === Auth ajoutée au contexte");
             }
         }
-        // ÉTAPE 5 : Laisser passer (avec ou sans badge)
+
+
+
         chain.doFilter(request, response);
     }
 }
