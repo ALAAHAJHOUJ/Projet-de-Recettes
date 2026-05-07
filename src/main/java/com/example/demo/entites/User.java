@@ -14,15 +14,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
+    private String username;
 
-    private String Username;
 
-    private String Password;
+    @Column(nullable = false)
+    private String password;
 
+    @Column(nullable = false)
     private String Role;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Recette> listRecettes;
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        username = username;
+    }
 
     public int getId() {
         return id;
@@ -32,20 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return Username;
-    }
-
-    public void setUsername(String username) {
-        Username = username;
-    }
-
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getRole() {

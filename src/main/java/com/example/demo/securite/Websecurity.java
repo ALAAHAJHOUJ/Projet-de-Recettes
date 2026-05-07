@@ -26,6 +26,7 @@ public class Websecurity {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/api/recettes/{id}").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/Login").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(Filter1, UsernamePasswordAuthenticationFilter.class);
         return http.build();

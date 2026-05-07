@@ -2,7 +2,9 @@ package com.example.demo.Controller;
 
 
 import com.example.demo.FormatRecette.FormatRecette;
+import com.example.demo.ModelUser.ModelUser;
 import com.example.demo.Pagination.PagedResponse;
+import com.example.demo.Services.AuthService;
 import com.example.demo.Services.RecetteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +26,10 @@ public class ControllerRecette {
 
     @Autowired
     private RecetteService recetteService;
+
+
+    @Autowired
+    private AuthService authService;
 
 
     @PostMapping("/api/recettes")
@@ -133,6 +139,14 @@ public class ControllerRecette {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(PagedResponse);
+    }
+
+
+
+    @PostMapping("/Login")
+    public String Login(@RequestBody @Valid ModelUser user){
+        authService.authenticate(user.getUsername(),user.getPassword());
+        return "welcom to the Login route";
     }
 
 
