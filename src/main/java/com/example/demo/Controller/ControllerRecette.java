@@ -145,6 +145,7 @@ public class ControllerRecette {
 
     @PostMapping("/Login")
     public String Login(@RequestBody @Valid ModelUser user){
+
         authService.authenticate(user.getUsername(),user.getPassword());
         return "welcom to the Login route";
     }

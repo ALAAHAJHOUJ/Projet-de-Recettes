@@ -33,10 +33,10 @@ public class ExceptionHandler {
 
 
     @org.springframework.web.bind.annotation.ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<String> handleNotReadable(BadCredentialsException ex) {
+    public ResponseEntity<String> donnesInavlides(BadCredentialsException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body("aucun utilisateur trouvé");
+                .body(ex.getMessage());
     }
 
 

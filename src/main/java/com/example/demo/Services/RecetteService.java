@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -70,6 +72,25 @@ public class RecetteService {
     public String modifierRecette(int id, FormatRecette recette){
         Recette r1=recetteRepo.findById(id).orElseThrow(()->new RuntimeException("recette inexistante"));
 
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String username = auth.getName();
+
+        String role = auth.getAuthorities()
+                .stream()
+                .findFirst()
+                .get()
+                .getAuthority();
+
+        if(!role.equals("ROLE_ADMIN")){
+            if(!r1.getUser().getUsername().equals(username)){
+                return "cet opération n'est pas autorisé";
+            }
+        }
+
+
         if(recette.getTitre()!=null){
              r1.setTitre(recette.getTitre());
         }
@@ -122,7 +143,30 @@ public class RecetteService {
 
         Recette r1=recetteRepo.findById(id).orElseThrow(()->new RuntimeException("recette introuvable"));
 
-        recetteRepo.delete(r1);
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String username = auth.getName();
+
+        String role = auth.getAuthorities()
+                .stream()
+                .findFirst()
+                .get()
+                .getAuthority();
+
+        if(role.equals("ROLE_ADMIN"))
+        {
+            recetteRepo.delete(r1);
+        }else {
+
+            if(r1.getUser().getUsername().equals(username)){
+                recetteRepo.delete(r1);
+            }else {
+                return "non autorisé a supprimer cet element";
+            }
+        }
+
 
         return "suppression avec succes";
     }
