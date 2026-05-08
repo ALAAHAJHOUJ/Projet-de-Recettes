@@ -6,12 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 
 @Component
@@ -36,10 +38,16 @@ public class jwtRequestFilter extends OncePerRequestFilter {
             // ÉTAPE 3 : Vérifier que le badge est valide
             if (jwtUtil.isTokenValid(token)) {
                 String username = jwtUtil.extractUsername(token);
+
+                String role = jwtUtil.extractRole(token);
+
                 // ÉTAPE 4 : Créer le badge visiteur et le donner à Spring Security
+                List<SimpleGrantedAuthority> authorities =
+                        List.of(new SimpleGrantedAuthority(role));
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                username, null, Collections.emptyList());
+                                username, null,authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 System.out.println("=== JWT FILTER === Auth ajoutée au contexte");
             }

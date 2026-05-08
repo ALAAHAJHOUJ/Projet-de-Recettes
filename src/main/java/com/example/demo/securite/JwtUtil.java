@@ -16,9 +16,10 @@ public class JwtUtil {
     // ============================================
     // BLOC 1 : CRÉER le token
     // ============================================
-    public String generateToken(String username) {
+    public String generateToken(String username,String role) {
         return Jwts.builder()
                 .setSubject(username) // QUI ? (le username)
+                .claim("role",role)
                 .setIssuedAt(new Date()) // QUAND ? (maintenant)
                 .setExpiration(new Date( // JUSQU'À QUAND ? (10h)
                         System.currentTimeMillis() + 1000 * 60 * 60 * 10))
@@ -31,6 +32,12 @@ public class JwtUtil {
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
+    public String extractRole(String token) {
+        return extractClaim(token,
+                claims -> claims.get("role", String.class));
+    }
+
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
