@@ -94,6 +94,7 @@ public class RecetteService {
                 .getAuthentication();
 
         String username = auth.getName();
+        System.out.println(username);
 
         String role = auth.getAuthorities()
                 .stream()
@@ -101,7 +102,7 @@ public class RecetteService {
                 .get()
                 .getAuthority();
 
-        if(!role.equals("ROLE_ADMIN")){
+        if(!role.equals("ADMIN")){
             if(!r1.getUser().getUsername().equals(username)){
                 return "cette opération n'est pas autorisé";
             }
@@ -173,8 +174,9 @@ public class RecetteService {
                 .findFirst()
                 .get()
                 .getAuthority();
+        System.out.println(role.equals("ADMIN"));
 
-        if(role.equals("ROLE_ADMIN"))
+        if(role.equals("ADMIN"))
         {
             recetteRepo.delete(r1.get());
         }else {

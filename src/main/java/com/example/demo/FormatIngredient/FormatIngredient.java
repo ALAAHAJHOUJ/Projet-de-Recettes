@@ -1,16 +1,17 @@
 package com.example.demo.FormatIngredient;
 
 
-
-
 import jakarta.validation.constraints.NotNull;
+
+
+
 
 public class FormatIngredient {
 
-    @NotNull(message="ce champs est requis dans la demande")
+    @NotNull
     private String nom;
 
-    @NotNull(message="ce champs est requis dans la demande")
+    @NotNull
     private Integer quantite;
 
     public String getNom() {

@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.FormatRecette.FormatRecette;
 import com.example.demo.ModelUser.ModelUser;
+import com.example.demo.ModelUser.ModelUser2;
 import com.example.demo.Pagination.PagedResponse;
 import com.example.demo.Services.AuthService;
 import com.example.demo.Services.RecetteService;
@@ -153,7 +154,7 @@ public class ControllerRecette {
 
 
     @PostMapping("/Login")
-    public ResponseEntity<String> Login(@RequestBody @Valid ModelUser user){
+    public ResponseEntity<String> Login(@RequestBody @Valid ModelUser2 user){
 
         String token=authService.authenticate(user.getUsername(),user.getPassword());
 
