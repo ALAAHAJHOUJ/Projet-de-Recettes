@@ -50,8 +50,13 @@ public class ControllerRecette {
     @PutMapping("/api/recettes/{id}")
     public ResponseEntity<?> ModifierRecette(@PathVariable int id,@RequestBody FormatRecette recette){
         if(recetteService.existe(id)){
-            recetteService.modifierRecette(id,recette);
-            return ResponseEntity.noContent().build();
+            String resultat=recetteService.modifierRecette(id,recette);
+            if(resultat.equals("cette opération n'est pas autorisé")){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(resultat);
+            }else {
+                return ResponseEntity.noContent().build();
+            }
+
         }else {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("recette introuvable");
         }
@@ -64,8 +69,12 @@ public class ControllerRecette {
     @DeleteMapping("/api/recettes/{id}")
     public ResponseEntity<?> SupprimerRecette(@PathVariable int id){
          if(recetteService.existe(id)){
-             recetteService.SupprimerRecette(id);
-             return ResponseEntity.noContent().build();
+                 String resultat=recetteService.SupprimerRecette(id);
+                 if(resultat.equals("non autorisé a supprimer cet element")){
+                     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(resultat);
+                 }else {
+                     return ResponseEntity.noContent().build();
+                 }
          }else {
              return ResponseEntity.status(HttpStatus.NOT_FOUND).body("recette introuvable");
          }

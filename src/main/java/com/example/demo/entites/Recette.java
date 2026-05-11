@@ -37,7 +37,7 @@ public class Recette {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "recette",cascade =CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "recette",cascade =CascadeType.ALL)
     private List<Ingredient> Ingredients;
 
 

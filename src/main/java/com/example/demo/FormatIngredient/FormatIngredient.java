@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class FormatIngredient {
 
-    @NotNull
+    @NotNull(message="ce champs est requis dans la demande")
     private String nom;
 
     @NotNull(message="ce champs est requis dans la demande")

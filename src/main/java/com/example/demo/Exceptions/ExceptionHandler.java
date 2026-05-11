@@ -31,7 +31,6 @@ public class ExceptionHandler {
                 .body("veuillez saisir tous les champs avec les bons types");
     }
 
-
     @org.springframework.web.bind.annotation.ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> donnesInavlides(BadCredentialsException ex) {
         return ResponseEntity

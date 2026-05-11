@@ -60,15 +60,9 @@ public class RecetteService {
 
         User user1=userRepo.findByUsername(username);
 
-        List<Recette> listRecettes=new LinkedList<>();
-
         r1.setUser(user1);
 
-        listRecettes.add(r1);
-
-        user1.setListRecettes(listRecettes);
-
-        userRepo.save(user1);
+        recetteRepo.save(r1);
 
         FormatRecette r2=new FormatRecette();
 
@@ -109,7 +103,7 @@ public class RecetteService {
 
         if(!role.equals("ROLE_ADMIN")){
             if(!r1.getUser().getUsername().equals(username)){
-                return "cet opération n'est pas autorisé";
+                return "cette opération n'est pas autorisé";
             }
         }
 
@@ -134,13 +128,15 @@ public class RecetteService {
             List<Ingredient> listIngr=new LinkedList<>();
 
 
-            //d'abord on supprime tous les recettes
+            //d'abord on supprime tous les ingredients
             for(Ingredient r:r1.getIngredients()){
                 String titreIngr=r.getNom();
                 ingredientService.supprimerIngredient(titreIngr,id);
             }
 
-            //ajouter Les roucettes envoyés dans la demande
+
+
+            //ajouter Les recettes envoyés dans la demande
             for(FormatIngredient d:recette.getListIngredient()){
                 Ingredient ingr1=new Ingredient();
                 ingr1.setNom(d.getNom());
@@ -162,9 +158,9 @@ public class RecetteService {
 
 
 
-    public String  SupprimerRecette(int id){
+    public String SupprimerRecette (int id)  {
 
-        Recette r1=recetteRepo.findById(id).orElseThrow(()->new RuntimeException("recette introuvable"));
+        Optional<Recette> r1=recetteRepo.findById(id);
 
         Authentication auth = SecurityContextHolder
                 .getContext()
@@ -180,14 +176,19 @@ public class RecetteService {
 
         if(role.equals("ROLE_ADMIN"))
         {
-            recetteRepo.delete(r1);
+            recetteRepo.delete(r1.get());
         }else {
-
-            if(r1.getUser().getUsername().equals(username)){
-                recetteRepo.delete(r1);
-            }else {
+            try{
+                if(r1.get().getUser().getUsername().equals(username)){
+                    recetteRepo.delete(r1.get());
+                }else {
+                    throw new IllegalAccessException("non autorisé a supprimer cet element");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
                 return "non autorisé a supprimer cet element";
             }
+
         }
 
 
@@ -270,4 +271,5 @@ public class RecetteService {
 
         return RecettePagine;
     }
+
 }
