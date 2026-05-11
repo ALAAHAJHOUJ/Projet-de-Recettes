@@ -32,6 +32,7 @@ public class Websecurity {
                         .requestMatchers(HttpMethod.POST,"/Login").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/recettes/search").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/recettes").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/inscription").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(Filter1, UsernamePasswordAuthenticationFilter.class);
         return http.build();

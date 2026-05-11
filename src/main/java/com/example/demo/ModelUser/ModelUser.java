@@ -13,6 +13,20 @@ public class ModelUser {
     @NotEmpty
     private String password;
 
+
+    @NotNull
+    @NotEmpty
+    private String role;
+
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
     public String getUsername() {
         return username;
     }

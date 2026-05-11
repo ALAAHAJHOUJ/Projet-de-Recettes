@@ -3,8 +3,10 @@ package com.example.demo.Services;
 import com.example.demo.FormatIngredient.FormatIngredient;
 import com.example.demo.FormatRecette.FormatRecette;
 import com.example.demo.Repository.RecetteRepo;
+import com.example.demo.Repository.UserRepo;
 import com.example.demo.entites.Ingredient;
 import com.example.demo.entites.Recette;
+import com.example.demo.entites.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Optional;
 
 
 @Service
@@ -28,6 +30,9 @@ public class RecetteService {
 
     @Autowired
     private IngredientService ingredientService;
+
+    @Autowired
+    private UserRepo userRepo;
 
 
     public FormatRecette enregistrerRecette(FormatRecette recette){
@@ -45,7 +50,25 @@ public class RecetteService {
 
         r1.setIngredients(ingredient1);
 
-        Recette r3=recetteRepo.save(r1);
+
+
+        Authentication auth = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+
+        String username = auth.getName();
+
+        User user1=userRepo.findByUsername(username);
+
+        List<Recette> listRecettes=new LinkedList<>();
+
+        r1.setUser(user1);
+
+        listRecettes.add(r1);
+
+        user1.setListRecettes(listRecettes);
+
+        userRepo.save(user1);
 
         FormatRecette r2=new FormatRecette();
 
@@ -53,7 +76,7 @@ public class RecetteService {
 
 
         List<FormatIngredient> liste1=new LinkedList<>();
-        for(Ingredient d:r3.getIngredients()){
+        for(Ingredient d:r1.getIngredients()){
             FormatIngredient forme=new FormatIngredient();
             forme.setNom(d.getNom());
             forme.setQuantite(d.getQuantite());

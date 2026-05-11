@@ -144,10 +144,21 @@ public class ControllerRecette {
 
 
     @PostMapping("/Login")
-    public String Login(@RequestBody @Valid ModelUser user){
+    public ResponseEntity<String> Login(@RequestBody @Valid ModelUser user){
 
-        authService.authenticate(user.getUsername(),user.getPassword());
-        return "welcom to the Login route";
+        String token=authService.authenticate(user.getUsername(),user.getPassword());
+
+        return ResponseEntity.status(HttpStatus.OK).body(token);
+    }
+
+
+
+    @PostMapping("/inscription")
+    public ResponseEntity<?> Inscription(@RequestBody @Valid ModelUser user1){
+
+       authService.Inscription(user1);
+
+       return ResponseEntity.status(HttpStatus.OK).body("inscription avec succes");
     }
 
 
