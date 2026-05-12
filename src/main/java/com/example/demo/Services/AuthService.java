@@ -55,7 +55,7 @@ public class AuthService {
 
         user1.setListRecettes(null);
 
-        userRepo.save(user1);
+            userRepo.save(user1);
 
         return "succes";
 
