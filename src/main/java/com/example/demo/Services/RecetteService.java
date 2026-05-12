@@ -87,7 +87,7 @@ public class RecetteService {
 
 
     public String modifierRecette(int id, FormatRecette recette){
-        Recette r1=recetteRepo.findById(id).orElseThrow(()->new RuntimeException("recette inexistante"));
+        Optional<Recette> r1=recetteRepo.findById(id);
 
         Authentication auth = SecurityContextHolder
                 .getContext()
@@ -103,26 +103,26 @@ public class RecetteService {
                 .getAuthority();
 
         if(!role.equals("ADMIN")){
-            if(!r1.getUser().getUsername().equals(username)){
+            if(!r1.get().getUser().getUsername().equals(username)){
                 return "cette opération n'est pas autorisé";
             }
         }
 
 
         if(recette.getTitre()!=null){
-             r1.setTitre(recette.getTitre());
+             r1.get().setTitre(recette.getTitre());
         }
 
         if(recette.getDescription()!=null){
-             r1.setDescription(recette.getDescription());
+             r1.get().setDescription(recette.getDescription());
         }
 
         if(recette.getLink_Img()!=null){
-             r1.setLink_Img(recette.getLink_Img());
+             r1.get().setLink_Img(recette.getLink_Img());
         }
 
         if(recette.getTempsMinutes()!=null){
-           r1.setTempsMinutes(recette.getTempsMinutes());
+           r1.get().setTempsMinutes(recette.getTempsMinutes());
         }
 
         if(recette.getListIngredient()!=null){
@@ -130,7 +130,7 @@ public class RecetteService {
 
 
             //d'abord on supprime tous les ingredients
-            for(Ingredient r:r1.getIngredients()){
+            for(Ingredient r:r1.get().getIngredients()){
                 String titreIngr=r.getNom();
                 ingredientService.supprimerIngredient(titreIngr,id);
             }
@@ -141,14 +141,14 @@ public class RecetteService {
             for(FormatIngredient d:recette.getListIngredient()){
                 Ingredient ingr1=new Ingredient();
                 ingr1.setNom(d.getNom());
-                ingr1.setRecette(r1);
+                ingr1.setRecette(r1.get());
                 ingr1.setQuantite(d.getQuantite());
                 listIngr.add(ingr1);
             }
-            r1.setIngredients(listIngr);
+            r1.get().setIngredients(listIngr);
         }
 
-        recetteRepo.save(r1);
+        recetteRepo.save(r1.get());
 
 
 
@@ -202,12 +202,12 @@ public class RecetteService {
 
 
     public FormatRecette chercher(int id){
-        Recette r1=recetteRepo.findById(id).orElseThrow(()->new RuntimeException("recette introuvable"));
+        Optional<Recette> r1=recetteRepo.findById(id);
         FormatRecette format=new FormatRecette();
         BeanUtils.copyProperties(r1,format);
         List<FormatIngredient> list1=new LinkedList<>();
 
-        for(Ingredient ingr:r1.getIngredients()){
+        for(Ingredient ingr:r1.get().getIngredients()){
             FormatIngredient forme1=new FormatIngredient();
             BeanUtils.copyProperties(ingr,forme1);
             list1.add(forme1);
