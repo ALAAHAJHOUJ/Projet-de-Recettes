@@ -204,7 +204,9 @@ public class RecetteService {
     public FormatRecette chercher(int id){
         Optional<Recette> r1=recetteRepo.findById(id);
         FormatRecette format=new FormatRecette();
-        BeanUtils.copyProperties(r1,format);
+        BeanUtils.copyProperties(r1.get(),format);
+
+
         List<FormatIngredient> list1=new LinkedList<>();
 
         for(Ingredient ingr:r1.get().getIngredients()){

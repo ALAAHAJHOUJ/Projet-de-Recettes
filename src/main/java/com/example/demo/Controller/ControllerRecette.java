@@ -40,7 +40,7 @@ public class ControllerRecette {
             return ResponseEntity.status(HttpStatus.CREATED).body(r1);
         }
         else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("titre deja existant");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("ce titre existe deja");
         }
     }
 
