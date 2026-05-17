@@ -23,10 +23,10 @@ public class Recette {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "img_link")
     private String link_Img;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "temps_minute")
     private int TempsMinutes;
 
     @CreationTimestamp

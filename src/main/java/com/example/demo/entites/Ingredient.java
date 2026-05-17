@@ -18,7 +18,7 @@ public class Ingredient {
     private Integer quantite;
 
     @ManyToOne
-    @JoinColumn(name="Id-recette")
+    @JoinColumn(name="id_recette")
     private Recette recette;
 
     public int getId() {
