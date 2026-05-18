@@ -60,7 +60,7 @@ public class ExceptionHandler {
 
 
     @org.springframework.web.bind.annotation.ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-    public ResponseEntity<String> FormatInvalide(HttpMediaTypeNotSupportedException ex) {
+    public ResponseEntity<String> MethodeNonreconnue(HttpMediaTypeNotSupportedException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body("format  invalide de données");
